@@ -16,6 +16,9 @@ class BookController extends Controller
 			'tokenParam'=>'key',
 			'except'=>['index']
 		];          
+		$behaviors['rateLimiter'] = [
+            'class' => \app\components\RateLimiter::className(),
+        ];
 		return $behaviors;     
 	}
 	
@@ -31,32 +34,32 @@ class BookController extends Controller
 			'create' => ['POST'],
 		];
 	}
-	 
+ 
 	public function actionIndex()     
 	{         
 		$model = Book::find()->all();         
-		
+		$result = [];
 		if(!empty($model)){
 			$msg = "found";	
 			$result = $model;
 		}
 		return [
 			'message'=> $msg,
-			'result'=> $books,
+			'result'=> $result,
 		];
 	}
 
 	public function actionList()
 	{
 		$model = Book::find()->all();
-		
+		$result = [];
 		if(!empty($model)){
 			$msg = "found";	
 			$result = $model;
 		}
 		return [
 			'message'=> $msg,
-			'result'=> $books,
+			'result'=> $result,
 		];
 	}
 

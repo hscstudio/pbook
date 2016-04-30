@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Apr 29, 2016 at 03:01 PM
+-- Generation Time: Apr 30, 2016 at 04:54 AM
 -- Server version: 5.6.26
 -- PHP Version: 7.0.0
 
@@ -26,8 +26,9 @@ SET time_zone = "+00:00";
 -- Table structure for table `book`
 --
 
-CREATE TABLE `book` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `book`;
+CREATE TABLE IF NOT EXISTS `book` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `author` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `publisher` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -35,7 +36,8 @@ CREATE TABLE `book` (
   `year` smallint(4) DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '1',
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
+  `updated_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -43,10 +45,20 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `title`, `author`, `publisher`, `city`, `year`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Membangun Aplikasi Profesional Berbasis Web Menggunakan Yii Framework', 'Hafid Mukhlasin', 'Self Publishing', 'Jakarta', 2016, 1, 1461313437, 1461965839);
+(1, 'Membangun Aplikasi Profesional Berbasis Web Menggunakan Yii Framework', 'Hafid Mukhlasin', 'Self Publishing', 'Jakarta', 2016, 1, 1461313437, 1461973174),
+(3, 'Test', 'Hafid', 'Hehe', NULL, NULL, 1, 1461965725, 1461973085),
+(4, 'PHP Basic', 'Fuad', 'Andi Ofset', NULL, 2016, 1, 1461966360, 1461966360),
+(5, 'PHP Basic', 'Fuad', 'Andi Ofset', NULL, 2016, 1, 1461973767, 1461973767);
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -57,26 +69,15 @@ CREATE TABLE `user` (
   `updated_at` int(11) NOT NULL,
   `rate_limit` varchar(15) COLLATE utf8_unicode_ci DEFAULT '1,5',
   `allowance` int(11) DEFAULT NULL,
-  `allowance_updated_at` int(11) DEFAULT NULL
+  `allowance_updated_at` int(11) DEFAULT NULL,
+  `accessed_at` int(11) DEFAULT NULL,
+  `max_accessed` int(11) DEFAULT '300',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `password_reset_token` (`password_reset_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-ALTER TABLE `book`
-  ADD PRIMARY KEY (`id`);
-
-
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `password_reset_token` (`password_reset_token`);
-
-
-ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
-  
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

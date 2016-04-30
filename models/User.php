@@ -5,7 +5,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use yii\filters\RateLimitInterface;
+use app\components\RateLimitInterface;
 
 /**
  * User model
@@ -184,5 +184,30 @@ class User extends ActiveRecord implements IdentityInterface, RateLimitInterface
         $this->allowance = $allowance;
         $this->allowance_updated_at = $timestamp;
         $this->save();
+    }
+	
+	public function loadAccessed($timestamp)
+    {
+		$accessed_at = (int)$this->accessed_at;
+		$max_accessed = (int)$this->max_accessed;		
+        $time = $timestamp - $accessed_at;
+		return ($time<=$max_accessed);
+    }
+	
+	public function saveAccessed($timestamp)
+    {
+		if(empty($this->accessed_at)){
+			$this->accessed_at = $timestamp;
+			$this->save();
+		}
+		else{
+		}
+    }
+	
+	public function generateAccessed()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+		$this->accessed_at = null;
+		$this->save();
     }
 }
